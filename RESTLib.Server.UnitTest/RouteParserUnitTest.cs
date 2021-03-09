@@ -1,0 +1,92 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+
+namespace RESTLib.Server.UnitTest
+{
+	[TestClass]
+	public class RouteParserUnitTest
+	{
+		[TestMethod]
+		public void ShouldNotParseEmptyURL()
+		{
+			RouteParser parser;
+
+			parser = new RouteParser();
+			Assert.ThrowsException<ArgumentNullException>(() => parser.Parse(null));
+			Assert.ThrowsException<ArgumentNullException>(() => parser.Parse(""));
+		}
+
+		[TestMethod]
+		public void ShouldParseRootURL()
+		{
+			RouteParser parser;
+			RouteSegment[] segments;
+
+			parser = new RouteParser();
+			segments=parser.Parse("root");
+			Assert.AreEqual(1, segments.Length);
+			Assert.AreEqual("root", ((StaticRouteSegment)segments[0]).Value);
+		}
+
+		[TestMethod]
+		public void ShouldParseShortStaticURL()
+		{
+			RouteParser parser;
+			RouteSegment[] segments;
+
+			parser = new RouteParser();
+			segments = parser.Parse("root/API");
+			Assert.AreEqual(2, segments.Length);
+			Assert.AreEqual("root", ((StaticRouteSegment)segments[0]).Value);
+			Assert.AreEqual("API", ((StaticRouteSegment)segments[1]).Value);
+		}
+
+		[TestMethod]
+		public void ShouldParseMediumStaticURL()
+		{
+			RouteParser parser;
+			RouteSegment[] segments;
+
+			parser = new RouteParser();
+			segments = parser.Parse("root/API/Books/1");
+			Assert.AreEqual(4, segments.Length);
+			Assert.AreEqual("root", ((StaticRouteSegment)segments[0]).Value);
+			Assert.AreEqual("API", ((StaticRouteSegment)segments[1]).Value);
+			Assert.AreEqual("Books", ((StaticRouteSegment)segments[2]).Value);
+			Assert.AreEqual("1", ((StaticRouteSegment)segments[3]).Value);
+		}
+
+		[TestMethod]
+		public void ShouldParseURLWithVariable()
+		{
+			RouteParser parser;
+			RouteSegment[] segments;
+
+			parser = new RouteParser();
+			segments = parser.Parse("root/API/Books/{id}");
+			Assert.AreEqual(4, segments.Length);
+			Assert.AreEqual("root", ((StaticRouteSegment)segments[0]).Value);
+			Assert.AreEqual("API", ((StaticRouteSegment)segments[1]).Value);
+			Assert.AreEqual("Books", ((StaticRouteSegment)segments[2]).Value);
+			Assert.AreEqual("id", ((VariableRouteSegment)segments[3]).Name);
+		}
+
+		[TestMethod]
+		public void ShouldParseURLWithVariableBis()
+		{
+			RouteParser parser;
+			RouteSegment[] segments;
+
+			parser = new RouteParser();
+			segments = parser.Parse("root/API/Books/{id}/Name");
+			Assert.AreEqual(5, segments.Length);
+			Assert.AreEqual("root", ((StaticRouteSegment)segments[0]).Value);
+			Assert.AreEqual("API", ((StaticRouteSegment)segments[1]).Value);
+			Assert.AreEqual("Books", ((StaticRouteSegment)segments[2]).Value);
+			Assert.AreEqual("id", ((VariableRouteSegment)segments[3]).Name);
+			Assert.AreEqual("Name", ((StaticRouteSegment)segments[4]).Value);
+		}
+
+
+	}
+}
