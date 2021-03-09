@@ -9,14 +9,22 @@ namespace RESTLib.Server
 {
 	public interface IRouteNode
 	{
+		IRouteHandler RouteHandler
+		{
+			get;
+			set;
+		}
+
 		MethodInfo MethodInfo
 		{
 			get;
 			set;
 		}
-		RouteNode GetStaticNode(string Value);
-		RouteNode GetVariableNode();
+		StaticRouteNode CreateStaticNode(string Value);
+		VariableRouteNode CreateVariableNode(string Name);
 
+		StaticRouteNode GetStaticNode(string Value);
+		VariableRouteNode GetVariableNode();
 
 	}
 }

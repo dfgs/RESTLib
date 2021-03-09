@@ -88,5 +88,61 @@ namespace RESTLib.Server.UnitTest
 		}
 
 
+
+
+
+		[TestMethod]
+		public void ShouldNotSplitEmptyURL()
+		{
+			RouteParser parser;
+
+			parser = new RouteParser();
+			Assert.ThrowsException<ArgumentNullException>(() => parser.Split(null));
+			Assert.ThrowsException<ArgumentNullException>(() => parser.Split(""));
+		}
+
+		[TestMethod]
+		public void ShouldSplitRootURL()
+		{
+			RouteParser parser;
+			string[] segments;
+
+			parser = new RouteParser();
+			segments = parser.Split("root");
+			Assert.AreEqual(1, segments.Length);
+			Assert.AreEqual("root", segments[0]);
+		}
+
+		[TestMethod]
+		public void ShouldSplitShortStaticURL()
+		{
+			RouteParser parser;
+			string[] segments;
+
+			parser = new RouteParser();
+			segments = parser.Split("root/API");
+			Assert.AreEqual(2, segments.Length);
+			Assert.AreEqual("root",segments[0]);
+			Assert.AreEqual("API", segments[1]);
+		}
+
+		[TestMethod]
+		public void ShouldSplitMediumStaticURL()
+		{
+			RouteParser parser;
+			string[] segments;
+
+			parser = new RouteParser();
+			segments = parser.Split("root/API/Books/1");
+			Assert.AreEqual(4, segments.Length);
+			Assert.AreEqual("root", segments[0]);
+			Assert.AreEqual("API", segments[1]);
+			Assert.AreEqual("Books", segments[2]);
+			Assert.AreEqual("1", segments[3]);
+		}
+
+	
+		
+
 	}
 }

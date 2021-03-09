@@ -67,7 +67,7 @@ namespace RESTLib.Server
                 Log(LogLevels.Information, $"Received new request from {request.RemoteEndPoint}");
 
                 Log(LogLevels.Information, $"Build response from router manager");
-                if (!Try(()=>routeManager.GetResponse()).OrAlert(out routerManagerResponse, "Failed to get response from router manager"))
+                if (!Try(()=>routeManager.GetResponse(null)).OrAlert(out routerManagerResponse, "Failed to get response from router manager"))
 				{
                     routerManagerResponse = Response.InternalError;
 				}

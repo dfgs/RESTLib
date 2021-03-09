@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 namespace RESTLib.Server
 {
-	[AttributeUsage(AttributeTargets.Method)]
-	public class RouteAttribute:Attribute
+	public class StaticRouteNode:RouteNode
 	{
-		public string URL
+		public string Value
 		{
 			get;
-			set;
+			private set;
 		}
 
-		public RouteAttribute(string URL)
+		public StaticRouteNode(string Value) :base()
 		{
-			this.URL = URL;
+			this.Value = Value;
 		}
 
 	}

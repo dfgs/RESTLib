@@ -49,8 +49,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RouteUnitTest.cs" />
+    <Compile Include="RouteUtilsUnitTest.cs" />
     <Compile Include="RouteHandlers\MethodInfos.cs" />
-    <Compile Include="RouteHandlers\TestRouteHandler1.cs" />
+    <Compile Include="RouteHandlers\BooksRouteHandler.cs" />
     <Compile Include="RouteNodeUnitTest.cs" />
     <Compile Include="RouteManagerUnitTest.cs" />
     <Compile Include="RouteParserUnitTest.cs" />

@@ -9,9 +9,11 @@ namespace RESTLib.Server
 {
 	public interface IRouteManager
 	{
-		Response GetResponse();
+		Route GetRoute(string URL);
+		Response GetResponse(string URL);
 
-		IRouteNode CreateRoute(MethodInfo MethodInfo, params RouteSegment[] Segments);
+		IRouteNode CreateRoute(IRouteHandler RouteHandler, MethodInfo MethodInfo, params RouteSegment[] Segments);
 
+		void AddRouteHandler(IRouteHandler RouteHandler);
 	}
 }

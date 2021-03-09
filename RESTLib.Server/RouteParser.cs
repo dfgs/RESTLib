@@ -35,7 +35,16 @@ namespace RESTLib.Server
 
 			return segments.ToArray();
 		}
+		public string[] Split(string URL)
+		{
+			string[] parts;
 
+			if (string.IsNullOrEmpty(URL)) throw new ArgumentNullException(nameof(URL));
+			parts = URL.Split('/');
+			if (parts.Length == 0) throw new ArgumentException(nameof(URL));
+
+			return parts;
+		}
 
 
 	}
