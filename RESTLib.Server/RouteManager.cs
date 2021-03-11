@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RESTLib.Server.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -53,7 +54,7 @@ namespace RESTLib.Server
 
 			pis = MethodInfo.GetParameters();
 
-			if (Segments.OfType<VariableRouteSegment>().Count() != pis.Length) throw new InvalidOperationException($"Route variable count mismatch for method {MethodInfo.Name}");
+			if (Segments.OfType<VariableRouteSegment>().Count() != pis.Length) throw new InvalidRouteException(MethodInfo.Name);
 
 			currentNode = node;
 			foreach(RouteSegment segment in Segments)
@@ -66,14 +67,14 @@ namespace RESTLib.Server
 					case VariableRouteSegment variableRouteSegment:
 						currentNode = currentNode.CreateVariableNode(variableRouteSegment.Name);
 						pi = pis.FirstOrDefault(item => item.Name == variableRouteSegment.Name);
-						if (pi == null) throw new InvalidOperationException($"Cannot map variable {variableRouteSegment.Name} to method info {MethodInfo.Name}");
+						if (pi == null) throw new InvalidRouteException(MethodInfo.Name);
 						break;
 					default:
 						throw new InvalidOperationException($"Invalid segment type {segment.GetType()}");
 				}
 			}
 			
-			if (currentNode.MethodInfo != null) throw new InvalidOperationException("Route already exists");
+			if (currentNode.MethodInfo != null) throw new DuplicateRouteException(MethodInfo.Name);
 
 			currentNode.RouteHandler = RouteHandler;
 			currentNode.MethodInfo = MethodInfo;
@@ -101,7 +102,7 @@ namespace RESTLib.Server
 				if (staticRouteNode == null)
 				{
 					variableRouteNode = currentNode.GetVariableNode();
-					if (variableRouteNode == null) throw new InvalidOperationException($"Route doesn't exist, segment {value}");
+					if (variableRouteNode == null) throw new RouteNotFoundException(URL);
 					currentNode = variableRouteNode;
 					route.Set(variableRouteNode.Name, value);
 				}
@@ -110,7 +111,7 @@ namespace RESTLib.Server
 
 			}
 
-			if (currentNode.MethodInfo == null) throw new InvalidOperationException($"Method info doesn't exist");
+			if (currentNode.MethodInfo == null) throw new RouteNotFoundException(URL);
 			route.RouteHandler = currentNode.RouteHandler;
 			route.MethodInfo = currentNode.MethodInfo;
 			return route;
@@ -121,7 +122,6 @@ namespace RESTLib.Server
 		{
 			Route route;
 			List<object> parameters;
-			Response reponse;
 			object result;
 
 			if (string.IsNullOrEmpty(URL)) throw new ArgumentNullException(nameof(URL));
@@ -146,7 +146,8 @@ namespace RESTLib.Server
 			try
 			{
 				result = route.MethodInfo.Invoke(route.RouteHandler, parameters.ToArray());
-				return Response.OK(result.ToString());
+				if (result is Response response) return response;
+				return Response.OK(result?.ToString());
 			}
 			catch
 			{

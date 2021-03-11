@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RESTLib.Server
+namespace RESTLib.Server.Exceptions
 {
-	public enum ResponseCodes:int {OK=200,NotFound=404,InternalError=500,Custom=999	};
-
+	public abstract class RESTException:Exception
+	{
+	}
 }

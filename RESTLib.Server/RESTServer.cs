@@ -1,5 +1,6 @@
 ﻿using LogLib;
 using ModuleLib;
+using RESTLib.Server.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,9 +67,19 @@ namespace RESTLib.Server
                 response = context.Response;
                 Log(LogLevels.Information, $"Received new request from {request.RemoteEndPoint}");
 
-                Log(LogLevels.Information, $"Build response from router manager");
-                if (!Try(()=>routeManager.GetResponse(null)).OrAlert(out routerManagerResponse, "Failed to get response from router manager"))
+                Log(LogLevels.Information, $"Build response from router manager ({request.RawUrl})");
+                try
 				{
+                    routerManagerResponse = routeManager.GetResponse(request.RawUrl);
+                }
+                catch(RouteNotFoundException)
+				{
+                    Log(LogLevels.Warning, $"Route was not found");
+                    routerManagerResponse = Response.NotFound;
+                }
+                catch(Exception)
+                {
+                    Log(LogLevels.Error, $"Failed to build response");
                     routerManagerResponse = Response.InternalError;
 				}
 

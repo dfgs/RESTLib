@@ -14,6 +14,7 @@ namespace RESTLib.Server
 		}
 		public StaticRouteSegment(string Value)
 		{
+			if (string.IsNullOrEmpty(Value)) throw new ArgumentNullException(nameof(Value));
 			this.Value = Value;
 		}
 

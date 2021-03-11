@@ -31,7 +31,16 @@ namespace RESTLib.Server.UnitTest.RouteHandlers
 			return Id;
 		}
 
-
+		[Route("root/API/GetNull")]
+		public object GetNull()
+		{
+			return null;
+		}
+		[Route("root/API/GetCustomResponse")]
+		public Response GetCustomResponse()
+		{
+			return new Response(ResponseCodes.Custom,"Custom");
+		}
 
 	}
 }

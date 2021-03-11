@@ -23,7 +23,7 @@ namespace RESTLib.Server
 
 		public Response(ResponseCodes ResponseCode,string Body)
 		{
-			if (Body == null) throw new ArgumentNullException(nameof(Body));
+			//if (Body == null) throw new ArgumentNullException(nameof(Body));
 			this.ResponseCode = ResponseCode;this.Body = Body;
 		}
 		public static Response OK(string Body)

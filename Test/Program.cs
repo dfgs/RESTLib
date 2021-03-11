@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Test.RouteHandlers;
 
 namespace Test
 {
@@ -16,6 +17,7 @@ namespace Test
 			IRouteManager routeManager;
 
 			routeManager = new RouteManager(new RouteParser());
+			routeManager.AddRouteHandler(new BooksRouteHandlers());
 			server = new RESTServer(new ConsoleLogger(new DefaultLogFormatter()),routeManager, "http://localhost:8080/root/");
 
 			server.Start();

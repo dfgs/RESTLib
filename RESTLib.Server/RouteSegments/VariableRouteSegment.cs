@@ -14,6 +14,7 @@ namespace RESTLib.Server
 		}
 		public VariableRouteSegment(string Name)
 		{
+			if (string.IsNullOrEmpty(Name)) throw new ArgumentNullException(nameof(Name));
 			this.Name = Name;
 		}
 

@@ -41,6 +41,7 @@ namespace RESTLib.Server.UnitTest
 			Assert.AreEqual("API", ((StaticRouteSegment)segments[1]).Value);
 		}
 
+
 		[TestMethod]
 		public void ShouldParseMediumStaticURL()
 		{
@@ -87,7 +88,18 @@ namespace RESTLib.Server.UnitTest
 			Assert.AreEqual("Name", ((StaticRouteSegment)segments[4]).Value);
 		}
 
+		[TestMethod]
+		public void ShouldParseURLStartingWithSlash()
+		{
+			RouteParser parser;
+			RouteSegment[] segments;
 
+			parser = new RouteParser();
+			segments = parser.Parse("/root/API");
+			Assert.AreEqual(2, segments.Length);
+			Assert.AreEqual("root", ((StaticRouteSegment)segments[0]).Value);
+			Assert.AreEqual("API", ((StaticRouteSegment)segments[1]).Value);
+		}
 
 
 
@@ -141,8 +153,19 @@ namespace RESTLib.Server.UnitTest
 			Assert.AreEqual("1", segments[3]);
 		}
 
-	
-		
+		[TestMethod]
+		public void ShouldSplitURLStartingWithSlash()
+		{
+			RouteParser parser;
+			string[] segments;
+
+			parser = new RouteParser();
+			segments = parser.Split("/root/API");
+			Assert.AreEqual(2, segments.Length);
+			Assert.AreEqual("root", segments[0]);
+			Assert.AreEqual("API", segments[1]);
+		}
+
 
 	}
 }

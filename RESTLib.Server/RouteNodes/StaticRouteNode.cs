@@ -16,6 +16,7 @@ namespace RESTLib.Server
 
 		public StaticRouteNode(string Value) :base()
 		{
+			if (string.IsNullOrEmpty(Value)) throw new ArgumentNullException(nameof(Value));
 			this.Value = Value;
 		}
 

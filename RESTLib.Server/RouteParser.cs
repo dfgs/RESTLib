@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RESTLib.Server.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,11 +21,13 @@ namespace RESTLib.Server
 
 			if (string.IsNullOrEmpty(URL)) throw new ArgumentNullException(nameof(URL));
 			parts = URL.Split('/');
-			if (parts.Length==0) throw new ArgumentException(nameof(URL));
+			if (parts.Length==0) throw new InvalidURLException(URL);
 
 			segments = new List<RouteSegment>();
 			foreach(string part in parts)
 			{
+				if (string.IsNullOrEmpty(part)) continue;
+
 				match = variableSegmentRegex.Match(part);
 
 				if (match.Success) segment = new VariableRouteSegment(match.Groups[1].Value);
@@ -41,9 +44,9 @@ namespace RESTLib.Server
 
 			if (string.IsNullOrEmpty(URL)) throw new ArgumentNullException(nameof(URL));
 			parts = URL.Split('/');
-			if (parts.Length == 0) throw new ArgumentException(nameof(URL));
+			if (parts.Length == 0) throw new InvalidURLException(URL);
 
-			return parts;
+			return parts.Where(item=>!string.IsNullOrEmpty(item)).ToArray();
 		}
 
 

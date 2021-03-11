@@ -16,6 +16,7 @@ namespace RESTLib.Server
 
 		public VariableRouteNode(string Name):base()
 		{
+			if (string.IsNullOrEmpty(Name)) throw new ArgumentNullException(nameof(Name));
 			this.Name = Name;
 		}
 
