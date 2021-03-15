@@ -30,7 +30,7 @@ namespace Test
 
 			Thread.Sleep(1000);
 
-			client = new RESTClient(new ResponseDeserializer());
+			client = new RESTClient(new HttpConnector(), new ResponseDeserializer());
 
 			Console.WriteLine("Trying to query URL");
 			result = await client.GetAsync("http://localhost:8080/root/books/500");
@@ -41,6 +41,17 @@ namespace Test
 			book = await client.GetAsync<Book>("http://localhost:8080/root/books/500");
 			Console.WriteLine("Result:");
 			Console.WriteLine(book);
+
+			Console.WriteLine("Trying to query URL");
+			try
+			{
+				result = await client.GetAsync("http://localhost:8080/root/book/500");
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine("Result:");
+				Console.WriteLine(ex);
+			}
 
 
 			Console.ReadLine();

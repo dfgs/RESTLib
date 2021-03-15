@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\RESTException.cs" />
+    <Compile Include="HttpConnector.cs" />
+    <Compile Include="IHttpConnector.cs" />
     <Compile Include="IResponseDeserializer.cs" />
     <Compile Include="ResponseDeserializer.cs" />
     <Compile Include="RESTClient.cs" />

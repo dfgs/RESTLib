@@ -47,8 +47,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mocks\MockedHttpConnector.cs" />
+    <Compile Include="RESTClientUnitTest.cs" />
     <Compile Include="ResponseDeserializerUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
