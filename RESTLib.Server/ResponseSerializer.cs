@@ -23,7 +23,7 @@ namespace RESTLib.Server
 			serializer.Serialize(stream, Body);
 			buffer=stream.ToArray();
 
-
+			return Response.OK(Encoding.UTF8.GetString(buffer), "application/xml");
 		}
 
 

@@ -92,8 +92,8 @@ namespace RESTLib.Server
                 Try(() =>
                 {
                     response.StatusCode = (int)routerManagerResponse.ResponseCode;
-                    response.ContentEncoding = Encoding.UTF8;
-                    byte[] buffer = System.Text.Encoding.UTF8.GetBytes(routerManagerResponse.Body);
+                    response.ContentEncoding = routerManagerResponse.Encoding;
+                    byte[] buffer = routerManagerResponse.Encoding.GetBytes(routerManagerResponse.Body);
                     response.ContentLength64 = buffer.Length;
                     stream = response.OutputStream;
                     stream.Write(buffer, 0, buffer.Length);

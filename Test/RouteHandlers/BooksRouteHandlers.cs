@@ -10,9 +10,9 @@ namespace Test.RouteHandlers
 	public class BooksRouteHandlers : IRouteHandler
 	{
 		[Route("/root/books/{Id}")]
-		public string GetBook(int Id)
+		public Book GetBook(int Id)
 		{
-			return $"book #{Id}";
+			return new Book() { Id = Id,Year=2021, Author="Moliere", Title="Le bourgeois gentilhomme" };
 		}
 	}
 }

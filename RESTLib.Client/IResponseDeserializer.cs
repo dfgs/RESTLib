@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RESTLib.Client
 {
-    public class Class1
-    {
-    }
+	public interface IResponseDeserializer
+	{
+		T Deserialize<T>(Stream Stream);
+	}
 }

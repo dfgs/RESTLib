@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Book.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteHandlers\BooksRouteHandlers.cs" />
@@ -58,6 +59,10 @@
     <ProjectReference Include="..\..\ModuleLib\ModuleLib\ModuleLib.csproj">
       <Project>{f89b06c7-43cc-4589-9859-3a4656aaa4a6}</Project>
       <Name>ModuleLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RESTLib.Client\RESTLib.Client.csproj">
+      <Project>{404be10e-e326-4d3e-b32c-81849091b634}</Project>
+      <Name>RESTLib.Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\RESTLib.Server\RESTLib.Server.csproj">
       <Project>{62376e8f-1703-4025-940d-3e99f9ff1c5c}</Project>

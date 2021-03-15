@@ -28,10 +28,18 @@ namespace RESTLib.Server
 			get;
 			private set;
 		}
+
+		public Encoding Encoding
+		{
+			get;
+			private set;
+		}
+
 		public Response(ResponseCodes ResponseCode,string Body,string ContentType)
 		{
 			//if (Body == null) throw new ArgumentNullException(nameof(Body));
 			this.ResponseCode = ResponseCode;this.Body = Body;this.ContentType = ContentType;
+			Encoding = Encoding.UTF8;
 		}
 		public static Response OK(string Body,string ContentType)
 		{
