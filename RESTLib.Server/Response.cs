@@ -8,8 +8,10 @@ namespace RESTLib.Server
 {
 	public class Response
 	{
-		public static Response NotFound = new Response(ResponseCodes.NotFound, "Not found" );
-		public static Response InternalError = new Response(ResponseCodes.InternalError, "Internal error" );
+		public static Response NotFound = new Response(ResponseCodes.NotFound, "Not found", "text/html");
+		public static Response BadRequest = new Response(ResponseCodes.BadRequest, "Bad request", "text/html");
+		public static Response InternalError = new Response(ResponseCodes.InternalError, "Internal error", "text/html");
+		public static Response NoContent = new Response(ResponseCodes.NoContent, "", "application/xml");
 		public ResponseCodes ResponseCode
 		{
 			get;
@@ -21,14 +23,19 @@ namespace RESTLib.Server
 			private set;
 		}
 
-		public Response(ResponseCodes ResponseCode,string Body)
+		public string ContentType
+		{
+			get;
+			private set;
+		}
+		public Response(ResponseCodes ResponseCode,string Body,string ContentType)
 		{
 			//if (Body == null) throw new ArgumentNullException(nameof(Body));
-			this.ResponseCode = ResponseCode;this.Body = Body;
+			this.ResponseCode = ResponseCode;this.Body = Body;this.ContentType = ContentType;
 		}
-		public static Response OK(string Body)
+		public static Response OK(string Body,string ContentType)
 		{
-			return new Response( ResponseCodes.OK, Body);
+			return new Response(ResponseCodes.OK, Body,ContentType);
 		}
 		
 

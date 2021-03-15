@@ -10,10 +10,10 @@ namespace RESTLib.Server.UnitTest
 		[TestMethod]
 		public void ShouldCheckConstructorParameters()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new RESTServer(null, new RouteManager(new RouteParser()), "prefix"));
+			Assert.ThrowsException<ArgumentNullException>(() => new RESTServer(null, new RouteManager(new RouteParser(), new ResponseSerializer()), "prefix"));
 			Assert.ThrowsException<ArgumentNullException>(() => new RESTServer(NullLogger.Instance, null, "prefix"));
-			Assert.ThrowsException<ArgumentNullException>(() => new RESTServer(NullLogger.Instance, new RouteManager(new RouteParser())));
-			Assert.ThrowsException<ArgumentNullException>(() => new RESTServer(NullLogger.Instance, new RouteManager(new RouteParser()),null));
+			Assert.ThrowsException<ArgumentNullException>(() => new RESTServer(NullLogger.Instance, new RouteManager(new RouteParser(), new ResponseSerializer())));
+			Assert.ThrowsException<ArgumentNullException>(() => new RESTServer(NullLogger.Instance, new RouteManager(new RouteParser(), new ResponseSerializer()),null));
 		}
 	}
 }

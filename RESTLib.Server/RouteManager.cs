@@ -12,11 +12,14 @@ namespace RESTLib.Server
 	{
 		private IRouteParser routeParser;
 		private IRouteNode node;
+		private IResponseSerializer serializer;
 
-		public RouteManager(IRouteParser RouteParser)
+		public RouteManager(IRouteParser RouteParser, IResponseSerializer Serializer)
 		{
 			if (RouteParser == null) throw new ArgumentNullException(nameof(RouteParser));
+			if (Serializer == null) throw new ArgumentNullException(nameof(Serializer));
 			this.routeParser = RouteParser;
+			this.serializer = Serializer;
 			node = new StaticRouteNode("root");
 		}
 
@@ -138,7 +141,7 @@ namespace RESTLib.Server
 				}
 				catch
 				{
-					throw new InvalidOperationException($"Failed to convert parameter value {route.Get(pi.Name)} ({pi.Name})");
+					throw new InvalidParameterException(URL);
 				}
 				
 			}
@@ -147,7 +150,8 @@ namespace RESTLib.Server
 			{
 				result = route.MethodInfo.Invoke(route.RouteHandler, parameters.ToArray());
 				if (result is Response response) return response;
-				return Response.OK(result?.ToString());
+
+				return serializer.Serialize(result);
 			}
 			catch
 			{

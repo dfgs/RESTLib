@@ -39,7 +39,7 @@ namespace RESTLib.Server.UnitTest.RouteHandlers
 		[Route("root/API/GetCustomResponse")]
 		public Response GetCustomResponse()
 		{
-			return new Response(ResponseCodes.Custom,"Custom");
+			return new Response(ResponseCodes.Custom,"Custom", "text/html");
 		}
 
 	}

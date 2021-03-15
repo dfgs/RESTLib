@@ -42,10 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\DuplicateRouteException.cs" />
+    <Compile Include="Exceptions\InvalidParameterException.cs" />
     <Compile Include="Exceptions\RouteNotFoundException.cs" />
     <Compile Include="Exceptions\InvalidRouteException.cs" />
     <Compile Include="Exceptions\InvalidURLException.cs" />
     <Compile Include="Exceptions\RESTException.cs" />
+    <Compile Include="ResponseSerializer.cs" />
+    <Compile Include="IResponseSerializer.cs" />
     <Compile Include="IRESTServer.cs" />
     <Compile Include="IRouteHandler.cs" />
     <Compile Include="IRouteManager.cs" />

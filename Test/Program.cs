@@ -16,7 +16,7 @@ namespace Test
 			RESTServer server;
 			IRouteManager routeManager;
 
-			routeManager = new RouteManager(new RouteParser());
+			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
 			routeManager.AddRouteHandler(new BooksRouteHandlers());
 			server = new RESTServer(new ConsoleLogger(new DefaultLogFormatter()),routeManager, "http://localhost:8080/root/");
 

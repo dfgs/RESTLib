@@ -66,18 +66,23 @@ namespace RESTLib.Server
                 request = context.Request;
                 response = context.Response;
                 Log(LogLevels.Information, $"Received new request from {request.RemoteEndPoint}");
-
+                
                 Log(LogLevels.Information, $"Build response from router manager ({request.RawUrl})");
                 try
 				{
                     routerManagerResponse = routeManager.GetResponse(request.RawUrl);
                 }
-                catch(RouteNotFoundException)
-				{
+                catch (RouteNotFoundException)
+                {
                     Log(LogLevels.Warning, $"Route was not found");
                     routerManagerResponse = Response.NotFound;
                 }
-                catch(Exception)
+                catch (InvalidParameterException)
+                {
+                    Log(LogLevels.Warning, $"Route contains invalid parameters");
+                    routerManagerResponse = Response.BadRequest;
+                }
+                catch (Exception)
                 {
                     Log(LogLevels.Error, $"Failed to build response");
                     routerManagerResponse = Response.InternalError;
@@ -87,6 +92,7 @@ namespace RESTLib.Server
                 Try(() =>
                 {
                     response.StatusCode = (int)routerManagerResponse.ResponseCode;
+                    response.ContentEncoding = Encoding.UTF8;
                     byte[] buffer = System.Text.Encoding.UTF8.GetBytes(routerManagerResponse.Body);
                     response.ContentLength64 = buffer.Length;
                     stream = response.OutputStream;
