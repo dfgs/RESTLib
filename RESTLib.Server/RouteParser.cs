@@ -8,36 +8,38 @@ using System.Threading.Tasks;
 
 namespace RESTLib.Server
 {
+	// http://api.example.com/device-management/managed-devices?region=USA&brand=XYZ&sort=installation-date
+
+	// 
 	public class RouteParser : IRouteParser
 	{
 		private static Regex variableSegmentRegex = new Regex(@"\{([^}]+)\}");
-		
-		public RouteSegment[] Parse(string URL)
+
+		public string GetPattern(string URL)
 		{
 			string[] parts;
+			string pattern;
 			Match match;
-			List<RouteSegment> segments;
-			RouteSegment segment;
 
 			if (string.IsNullOrEmpty(URL)) throw new ArgumentNullException(nameof(URL));
 			parts = URL.Split('/');
-			if (parts.Length==0) throw new InvalidURLException(URL);
+			if (parts.Length == 0) throw new InvalidURLException(URL);
 
-			segments = new List<RouteSegment>();
-			foreach(string part in parts)
+			pattern = "^";
+			foreach (string part in parts)
 			{
 				if (string.IsNullOrEmpty(part)) continue;
 
 				match = variableSegmentRegex.Match(part);
 
-				if (match.Success) segment = new VariableRouteSegment(match.Groups[1].Value);
-				else segment = new StaticRouteSegment(part);
-				
-				segments.Add(segment) ;
+				if (match.Success) pattern += $"/(?<{match.Groups[1].Value}>[^/]+)";
+				else pattern += $"/{Regex.Escape(part)}";
 			}
-
-			return segments.ToArray();
+			pattern += "$";
+			return pattern;
 		}
+
+	
 		public string[] Split(string URL)
 		{
 			string[] parts;

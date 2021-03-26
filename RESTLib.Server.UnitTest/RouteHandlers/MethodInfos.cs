@@ -11,12 +11,16 @@ namespace RESTLib.Server.UnitTest.RouteHandlers
 	{
 		public static MethodInfo GetBook;
 
+		public static MethodInfo GetBooks;
+
 		static MethodInfos()
 		{
+			GetBooks = RouteUtils.GetMethodInfo<BooksRouteHandler>("GetBooks");
+
 			GetBook = RouteUtils.GetMethodInfo<BooksRouteHandler>("GetBook");
 
 		}
 
-		
+
 	}
 }

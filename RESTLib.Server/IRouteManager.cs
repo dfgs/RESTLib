@@ -12,7 +12,7 @@ namespace RESTLib.Server
 		Route GetRoute(RESTMethods Method, string URL);
 		Response GetResponse(RESTMethods Method,string URL);
 
-		IRouteNode CreateRoute(IRouteHandler RouteHandler, MethodInfo MethodInfo, RESTMethods Method, params RouteSegment[] Segments);
+		RouteBinding BindRoute(IRouteHandler RouteHandler, MethodInfo MethodInfo, RESTMethods Method, string Pattern);
 
 		void AddRouteHandler(IRouteHandler RouteHandler);
 	}

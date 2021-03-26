@@ -55,7 +55,6 @@
     <Compile Include="RouteUtilsUnitTest.cs" />
     <Compile Include="RouteHandlers\MethodInfos.cs" />
     <Compile Include="RouteHandlers\BooksRouteHandler.cs" />
-    <Compile Include="RouteNodeUnitTest.cs" />
     <Compile Include="RouteManagerUnitTest.cs" />
     <Compile Include="RouteParserUnitTest.cs" />
     <Compile Include="RESTServerUnitTest.cs" />

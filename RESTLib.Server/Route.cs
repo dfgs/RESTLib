@@ -11,12 +11,7 @@ namespace RESTLib.Server
 	{
 		private Dictionary<string, object> variables;
 
-		public IRouteHandler RouteHandler
-		{
-			get;
-			set;
-		}
-		public MethodInfo MethodInfo
+		public RouteBinding Binding
 		{
 			get;
 			set;

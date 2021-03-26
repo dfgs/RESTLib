@@ -58,17 +58,11 @@
     <Compile Include="RESTMethods.cs" />
     <Compile Include="RESTServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RouteBinding.cs" />
     <Compile Include="Route.cs" />
     <Compile Include="RouteAttribute.cs" />
     <Compile Include="RouteManager.cs" />
-    <Compile Include="RouteNodes\IRouteNode.cs" />
-    <Compile Include="RouteNodes\RouteNode.cs" />
-    <Compile Include="RouteNodes\VariableRouteNode.cs" />
-    <Compile Include="RouteNodes\StaticRouteNode.cs" />
     <Compile Include="RouteParser.cs" />
-    <Compile Include="RouteSegments\VariableRouteSegment.cs" />
-    <Compile Include="RouteSegments\StaticRouteSegment.cs" />
-    <Compile Include="RouteSegments\RouteSegment.cs" />
     <Compile Include="RouteUtils.cs" />
   </ItemGroup>
   <ItemGroup>
