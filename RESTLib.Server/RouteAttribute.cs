@@ -9,15 +9,20 @@ namespace RESTLib.Server
 	[AttributeUsage(AttributeTargets.Method)]
 	public class RouteAttribute:Attribute
 	{
+		public RESTMethods Method
+		{
+			get;
+			set;
+		}
 		public string URL
 		{
 			get;
 			set;
 		}
 
-		public RouteAttribute(string URL)
+		public RouteAttribute(RESTMethods Method, string URL)
 		{
-			this.URL = URL;
+			this.Method = Method; this.URL = URL;
 		}
 
 	}

@@ -11,7 +11,10 @@ namespace RESTLib.Server
 	public class RouteManager : IRouteManager
 	{
 		private IRouteParser routeParser;
-		private IRouteNode node;
+		private IRouteNode getNode;
+		private IRouteNode putNode;
+		private IRouteNode postNode;
+		private IRouteNode deleteNode;
 		private IResponseSerializer serializer;
 
 		public RouteManager(IRouteParser RouteParser, IResponseSerializer Serializer)
@@ -20,7 +23,10 @@ namespace RESTLib.Server
 			if (Serializer == null) throw new ArgumentNullException(nameof(Serializer));
 			this.routeParser = RouteParser;
 			this.serializer = Serializer;
-			node = new StaticRouteNode("root");
+			getNode = new StaticRouteNode("root");
+			putNode = new StaticRouteNode("root");
+			postNode = new StaticRouteNode("root");
+			deleteNode = new StaticRouteNode("root");
 		}
 
 		public void AddRouteHandler(IRouteHandler RouteHandler)
@@ -39,12 +45,24 @@ namespace RESTLib.Server
 				attribute = mi.GetCustomAttribute<RouteAttribute>();
 				if (attribute == null) continue;
 				segments = routeParser.Parse(attribute.URL);
-				CreateRoute(RouteHandler, mi, segments);
+				CreateRoute(RouteHandler, mi,attribute.Method, segments);
 			}
 
 		}
 
-		public IRouteNode CreateRoute(IRouteHandler RouteHandler, MethodInfo MethodInfo,params RouteSegment[] Segments)
+		private IRouteNode GetRootNode(RESTMethods Method)
+		{
+			switch (Method)
+			{
+				case RESTMethods.GET: return getNode;
+				case RESTMethods.PUT: return putNode;
+				case RESTMethods.POST: return postNode;
+				case RESTMethods.DELETE: return deleteNode;
+				default: throw new InvalidParameterException($"REST Method {Method} not supported");
+			}
+		}
+
+		public IRouteNode CreateRoute(IRouteHandler RouteHandler, MethodInfo MethodInfo,RESTMethods Method, params RouteSegment[] Segments)
 		{
 			IRouteNode currentNode;
 			ParameterInfo[] pis;
@@ -59,7 +77,8 @@ namespace RESTLib.Server
 
 			if (Segments.OfType<VariableRouteSegment>().Count() != pis.Length) throw new InvalidRouteException(MethodInfo.Name);
 
-			currentNode = node;
+			currentNode = GetRootNode(Method);
+
 			foreach(RouteSegment segment in Segments)
 			{
 				switch(segment)
@@ -83,7 +102,7 @@ namespace RESTLib.Server
 			currentNode.MethodInfo = MethodInfo;
 			return currentNode;
 		}
-		public Route GetRoute(string URL)
+		public Route GetRoute(RESTMethods Method, string URL)
 		{
 			IRouteNode currentNode;
 			VariableRouteNode variableRouteNode;
@@ -98,7 +117,7 @@ namespace RESTLib.Server
 			route = new Route();
 			parts = routeParser.Split(URL);
 
-			currentNode = node;
+			currentNode = GetRootNode(Method);
 			foreach (string value in parts)
 			{
 				staticRouteNode = currentNode.GetStaticNode(value);
@@ -121,7 +140,7 @@ namespace RESTLib.Server
 		}
 
 
-		public Response GetResponse(string URL)
+		public Response GetResponse(RESTMethods Method,string URL)
 		{
 			Route route;
 			List<object> parameters;
@@ -129,7 +148,7 @@ namespace RESTLib.Server
 
 			if (string.IsNullOrEmpty(URL)) throw new ArgumentNullException(nameof(URL));
 
-			route = GetRoute(URL);
+			route = GetRoute(Method, URL);
 			parameters = new List<object>();
 
 

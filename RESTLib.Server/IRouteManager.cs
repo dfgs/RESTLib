@@ -9,10 +9,10 @@ namespace RESTLib.Server
 {
 	public interface IRouteManager
 	{
-		Route GetRoute(string URL);
-		Response GetResponse(string URL);
+		Route GetRoute(RESTMethods Method, string URL);
+		Response GetResponse(RESTMethods Method,string URL);
 
-		IRouteNode CreateRoute(IRouteHandler RouteHandler, MethodInfo MethodInfo, params RouteSegment[] Segments);
+		IRouteNode CreateRoute(IRouteHandler RouteHandler, MethodInfo MethodInfo, RESTMethods Method, params RouteSegment[] Segments);
 
 		void AddRouteHandler(IRouteHandler RouteHandler);
 	}

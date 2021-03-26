@@ -22,9 +22,9 @@ namespace RESTLib.Server.UnitTest
 			RouteManager routeManager;
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
-			Assert.ThrowsException<InvalidRouteException>(() => routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, new StaticRouteSegment("1")));
-			Assert.ThrowsException<ArgumentNullException>(() => routeManager.CreateRoute(null, MethodInfos.GetBook, new StaticRouteSegment("1")));
-			Assert.ThrowsException<ArgumentNullException>(() => routeManager.CreateRoute(new BooksRouteHandler(),MethodInfos.GetBook, null));
+			Assert.ThrowsException<InvalidRouteException>(() => routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, RESTMethods.GET, new StaticRouteSegment("1")));
+			Assert.ThrowsException<ArgumentNullException>(() => routeManager.CreateRoute(null, MethodInfos.GetBook, RESTMethods.GET, new StaticRouteSegment("1")));
+			Assert.ThrowsException<ArgumentNullException>(() => routeManager.CreateRoute(new BooksRouteHandler(),MethodInfos.GetBook, RESTMethods.GET, null));
 		}
 		[TestMethod]
 		public void ShouldCreateRoute()
@@ -32,7 +32,7 @@ namespace RESTLib.Server.UnitTest
 			RouteManager routeManager;
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
-			routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id"));
+			routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, RESTMethods.GET, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id"));
 		}
 
 		[TestMethod]
@@ -41,7 +41,7 @@ namespace RESTLib.Server.UnitTest
 			RouteManager routeManager;
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
-			routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id"));
+			routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, RESTMethods.GET, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id"));
 		}
 
 		[TestMethod]
@@ -50,7 +50,7 @@ namespace RESTLib.Server.UnitTest
 			RouteManager routeManager;
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
-			Assert.ThrowsException<InvalidRouteException>(()=> routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Test")));
+			Assert.ThrowsException<InvalidRouteException>(()=> routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, RESTMethods.GET, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Test")));
 		}
 
 		[TestMethod]
@@ -59,8 +59,8 @@ namespace RESTLib.Server.UnitTest
 			RouteManager routeManager;
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
-			Assert.ThrowsException<InvalidRouteException>(() => routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books")));
-			Assert.ThrowsException<InvalidRouteException>(() => routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id1"), new VariableRouteSegment("Id2")));
+			Assert.ThrowsException<InvalidRouteException>(() => routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, RESTMethods.GET, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books")));
+			Assert.ThrowsException<InvalidRouteException>(() => routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, RESTMethods.GET, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id1"), new VariableRouteSegment("Id2")));
 		}
 
 		[TestMethod]
@@ -69,8 +69,18 @@ namespace RESTLib.Server.UnitTest
 			RouteManager routeManager;
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
-			routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id"));
-			Assert.ThrowsException<DuplicateRouteException>(()=> routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id")));
+			routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, RESTMethods.GET, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id"));
+			Assert.ThrowsException<DuplicateRouteException>(()=> routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, RESTMethods.GET, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id")));
+		}
+
+		[TestMethod]
+		public void ShouldCreateDuplicateRouteWithDifferentMethods()
+		{
+			RouteManager routeManager;
+
+			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
+			routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, RESTMethods.GET, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id"));
+			routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, RESTMethods.PUT, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id"));
 		}
 
 		[TestMethod]
@@ -79,8 +89,8 @@ namespace RESTLib.Server.UnitTest
 			RouteManager routeManager;
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
-			routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id"));
-			Assert.ThrowsException<DuplicateRouteException>(() => routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id")));
+			routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, RESTMethods.GET, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id"));
+			Assert.ThrowsException<DuplicateRouteException>(() => routeManager.CreateRoute(new BooksRouteHandler(), MethodInfos.GetBook, RESTMethods.GET, new StaticRouteSegment("root"), new StaticRouteSegment("API"), new StaticRouteSegment("Books"), new VariableRouteSegment("Id")));
 		}
 
 
@@ -106,8 +116,8 @@ namespace RESTLib.Server.UnitTest
 			RouteManager routeManager;
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
-			Assert.ThrowsException<ArgumentNullException>(() => routeManager.GetRoute(null));
-			Assert.ThrowsException<ArgumentNullException>(() => routeManager.GetRoute(""));
+			Assert.ThrowsException<ArgumentNullException>(() => routeManager.GetRoute(RESTMethods.GET, null));
+			Assert.ThrowsException<ArgumentNullException>(() => routeManager.GetRoute(RESTMethods.GET, ""));
 		}
 		[TestMethod]
 		public void ShouldGetRoute()
@@ -117,7 +127,7 @@ namespace RESTLib.Server.UnitTest
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
 			routeManager.AddRouteHandler(new BooksRouteHandler());
-			route = routeManager.GetRoute("root/API/Authors/5");
+			route = routeManager.GetRoute(RESTMethods.GET, "root/API/Authors/5");
 			Assert.IsNotNull(route);
 			Assert.IsNotNull(route.RouteHandler);
 			Assert.IsNotNull(route.MethodInfo);
@@ -132,7 +142,7 @@ namespace RESTLib.Server.UnitTest
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
 			routeManager.AddRouteHandler(new BooksRouteHandler());
-			Assert.ThrowsException<RouteNotFoundException>(()=> routeManager.GetRoute("root/API/Authors/5/Test"));
+			Assert.ThrowsException<RouteNotFoundException>(()=> routeManager.GetRoute(RESTMethods.GET, "root/API/Authors/5/Test"));
 		}
 
 		[TestMethod]
@@ -142,9 +152,18 @@ namespace RESTLib.Server.UnitTest
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
 			routeManager.AddRouteHandler(new BooksRouteHandler());
-			Assert.ThrowsException<RouteNotFoundException>(() => routeManager.GetRoute("root/API/Authors"));
+			Assert.ThrowsException<RouteNotFoundException>(() => routeManager.GetRoute(RESTMethods.GET, "root/API/Authors"));
 		}
+		[TestMethod]
+		public void ShouldNotGetRouteIfMethodsAreDifferent()
+		{
+			RouteManager routeManager;
 
+			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
+			routeManager.AddRouteHandler(new BooksRouteHandler());
+			Assert.ThrowsException<RouteNotFoundException>(() => routeManager.GetRoute(RESTMethods.PUT, "root/API/Authors"));
+
+		}
 
 
 
@@ -156,9 +175,9 @@ namespace RESTLib.Server.UnitTest
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
 			routeManager.AddRouteHandler(new BooksRouteHandler());
-			response=routeManager.GetResponse("root/API/Books/5");
+			response=routeManager.GetResponse(RESTMethods.GET, "root/API/Books/5");
 			Assert.IsNotNull(response);
-			Assert.AreEqual("5",response.Body);
+			Assert.IsTrue(response.Body.Contains("5"));
 		}
 
 		[TestMethod]
@@ -169,9 +188,9 @@ namespace RESTLib.Server.UnitTest
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
 			routeManager.AddRouteHandler(new BooksRouteHandler());
-			response = routeManager.GetResponse("root/API/GetNull");
+			response = routeManager.GetResponse(RESTMethods.GET, "root/API/GetNull");
 			Assert.IsNotNull(response);
-			Assert.IsNull(response.Body);
+			Assert.AreEqual("",response.Body) ;
 		}
 		[TestMethod]
 		public void ShouldGetCustomResponse()
@@ -181,7 +200,7 @@ namespace RESTLib.Server.UnitTest
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
 			routeManager.AddRouteHandler(new BooksRouteHandler());
-			response = routeManager.GetResponse("root/API/GetCustomResponse");
+			response = routeManager.GetResponse(RESTMethods.GET, "root/API/GetCustomResponse");
 			Assert.IsNotNull(response);
 			Assert.AreEqual(ResponseCodes.Custom, response.ResponseCode);
 			Assert.AreEqual("Custom", response.Body);
@@ -195,9 +214,9 @@ namespace RESTLib.Server.UnitTest
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
 			routeManager.AddRouteHandler(new StatusRouteHandler());
-			response = routeManager.GetResponse("root/API/Status");
+			response = routeManager.GetResponse(RESTMethods.GET, "root/API/Status");
 			Assert.IsNotNull(response);
-			Assert.AreEqual("True", response.Body);
+			Assert.IsTrue(response.Body.Contains("true"));
 		}
 
 		[TestMethod]
@@ -207,8 +226,8 @@ namespace RESTLib.Server.UnitTest
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
 			routeManager.AddRouteHandler(new BooksRouteHandler());
-			Assert.ThrowsException<ArgumentNullException>(() => routeManager.GetResponse(null));
-			Assert.ThrowsException<ArgumentNullException>(() => routeManager.GetResponse(""));
+			Assert.ThrowsException<ArgumentNullException>(() => routeManager.GetResponse(RESTMethods.GET, null));
+			Assert.ThrowsException<ArgumentNullException>(() => routeManager.GetResponse(RESTMethods.GET, ""));
 		}
 		[TestMethod]
 		public void ShouldNotGetResponseIfParameterIsWrongType()
@@ -217,7 +236,7 @@ namespace RESTLib.Server.UnitTest
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
 			routeManager.AddRouteHandler(new BooksRouteHandler());
-			Assert.ThrowsException<InvalidParameterException>(() => routeManager.GetResponse("root/API/Books/t"));
+			Assert.ThrowsException<InvalidParameterException>(() => routeManager.GetResponse(RESTMethods.GET, "root/API/Books/t"));
 			
 		}
 

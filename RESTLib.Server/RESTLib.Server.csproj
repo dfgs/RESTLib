@@ -55,6 +55,7 @@
     <Compile Include="IRouteParser.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="ResponseCodes.cs" />
+    <Compile Include="RESTMethods.cs" />
     <Compile Include="RESTServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Route.cs" />

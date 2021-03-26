@@ -50,6 +50,7 @@ namespace RESTLib.Server
             HttpListenerResponse response;
             Response routerManagerResponse;
             System.IO.Stream stream;
+            RESTMethods method;
 
             LogEnter();
 
@@ -66,11 +67,32 @@ namespace RESTLib.Server
                 request = context.Request;
                 response = context.Response;
                 Log(LogLevels.Information, $"Received new request from {request.RemoteEndPoint}");
-                
+
+                switch(request.HttpMethod)
+				{
+                    case "GET":
+                        method = RESTMethods.GET;
+                        break;
+                    case "PUT":
+                        method = RESTMethods.PUT;
+                        break;
+                    case "POST":
+                        method = RESTMethods.POST;
+                        break;
+                    case "DELETE":
+                        method = RESTMethods.DELETE;
+                        break;
+                    default:
+                        Log(LogLevels.Error, $"REST Method {request.HttpMethod} is not supported");
+                        routerManagerResponse = Response.InternalError;
+                        goto response;
+                }
+
+
                 Log(LogLevels.Information, $"Build response from router manager ({request.RawUrl})");
                 try
 				{
-                    routerManagerResponse = routeManager.GetResponse(request.RawUrl);
+                     routerManagerResponse = routeManager.GetResponse(method,request.RawUrl);
                 }
                 catch (RouteNotFoundException)
                 {
@@ -88,6 +110,7 @@ namespace RESTLib.Server
                     routerManagerResponse = Response.InternalError;
 				}
 
+                response:
                 Log(LogLevels.Information, $"Sending response to client");
                 Try(() =>
                 {

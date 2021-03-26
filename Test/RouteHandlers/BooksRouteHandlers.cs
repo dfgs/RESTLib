@@ -9,7 +9,7 @@ namespace Test.RouteHandlers
 {
 	public class BooksRouteHandlers : IRouteHandler
 	{
-		[Route("/root/books/{Id}")]
+		[Route(RESTMethods.GET, "/root/books/{Id}")]
 		public Book GetBook(int Id)
 		{
 			return new Book() { Id = Id,Year=2021, Author="Moliere", Title="Le bourgeois gentilhomme" };
