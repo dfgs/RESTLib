@@ -30,6 +30,11 @@ namespace Test
 			set;
 		}
 
+		public override string ToString()
+		{
+			return $"Id={Id}, Year={Year}, Title={Title}, Author={Author}";
+		}
+
 
 	}
 }

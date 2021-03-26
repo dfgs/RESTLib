@@ -13,43 +13,28 @@ namespace RESTLib.Server
 	// 
 	public class RouteParser : IRouteParser
 	{
-		private static Regex variableSegmentRegex = new Regex(@"\{([^}]+)\}");
+		private static Regex variableSegmentRegex = new Regex(@"{(?<Variable>[^}]+)}");
 
 		public string GetPattern(string URL)
 		{
-			string[] parts;
 			string pattern;
-			Match match;
+			string escapedURL;
 
 			if (string.IsNullOrEmpty(URL)) throw new ArgumentNullException(nameof(URL));
-			parts = URL.Split('/');
-			if (parts.Length == 0) throw new InvalidURLException(URL);
 
-			pattern = "^";
-			foreach (string part in parts)
-			{
-				if (string.IsNullOrEmpty(part)) continue;
-
-				match = variableSegmentRegex.Match(part);
-
-				if (match.Success) pattern += $"/(?<{match.Groups[1].Value}>[^/]+)";
-				else pattern += $"/{Regex.Escape(part)}";
-			}
-			pattern += "$";
+			escapedURL = URL.Replace(".",@"\.").Replace("?",@"\?");
+			pattern="^"+ variableSegmentRegex.Replace(escapedURL, EvaluateVariableMatch)+"$";
+			
+			
 			return pattern;
 		}
 
-	
-		public string[] Split(string URL)
+		private string EvaluateVariableMatch(Match Match)
 		{
-			string[] parts;
-
-			if (string.IsNullOrEmpty(URL)) throw new ArgumentNullException(nameof(URL));
-			parts = URL.Split('/');
-			if (parts.Length == 0) throw new InvalidURLException(URL);
-
-			return parts.Where(item=>!string.IsNullOrEmpty(item)).ToArray();
+			return $"(?<{Match.Groups["Variable"].Value}>[^/&]+)";
 		}
+	
+		
 
 
 	}

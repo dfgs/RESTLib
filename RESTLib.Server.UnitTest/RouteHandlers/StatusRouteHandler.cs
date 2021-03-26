@@ -8,7 +8,7 @@ namespace RESTLib.Server.UnitTest.RouteHandlers
 {
 	public class StatusRouteHandler:IRouteHandler
 	{
-		[Route(RESTMethods.GET, "root/API/Status")]
+		[Route(RESTMethods.GET, "/root/API/Status")]
 		public bool GetStatus()
 		{
 			return true;

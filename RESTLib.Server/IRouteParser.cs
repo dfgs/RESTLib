@@ -9,6 +9,6 @@ namespace RESTLib.Server
 	public interface IRouteParser
 	{
 		string GetPattern(string URL);
-		string[] Split(string URL);
+		
 	}
 }

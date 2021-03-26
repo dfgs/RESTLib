@@ -43,6 +43,11 @@ namespace Test
 			Console.WriteLine(book);
 
 			Console.WriteLine("Trying to query URL");
+			book = await client.GetAsync<Book>("http://localhost:8080/root/books?year=2020&author=stephenking");
+			Console.WriteLine("Result:");
+			Console.WriteLine(book);
+
+			Console.WriteLine("Trying to query URL");
 			try
 			{
 				result = await client.GetAsync("http://localhost:8080/root/book/500");

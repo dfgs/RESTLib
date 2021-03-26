@@ -14,5 +14,11 @@ namespace Test.RouteHandlers
 		{
 			return new Book() { Id = Id,Year=2021, Author="Moliere", Title="Le bourgeois gentilhomme" };
 		}
+		[Route(RESTMethods.GET, "/root/books?year={Year}&author={Author}")]
+		public Book GetBook(int Year,string Author)
+		{
+			return new Book() { Id = 999, Year = Year, Author = Author, Title = "Le bourgeois gentilhomme" };
+		}
+
 	}
 }
