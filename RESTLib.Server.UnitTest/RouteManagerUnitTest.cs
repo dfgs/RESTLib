@@ -130,7 +130,40 @@ namespace RESTLib.Server.UnitTest
 
 			Assert.AreEqual("5", route.Get("Id"));
 		}
+		[TestMethod]
+		public void ShouldGetRouteWithFilters()
+		{
+			RouteManager routeManager;
+			Route route;
 
+			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
+			routeManager.AddRouteHandler(new BooksRouteHandler());
+			route = routeManager.GetRoute(RESTMethods.GET, "/root/API/books?year=1980&author=moliere");
+			Assert.IsNotNull(route);
+			Assert.IsNotNull(route.Binding);
+			Assert.IsNotNull(route.Binding.RouteHandler);
+			Assert.IsNotNull(route.Binding.MethodInfo);
+
+			Assert.AreEqual("1980", route.Get("Year"));
+			Assert.AreEqual("moliere", route.Get("Author"));
+		}
+		[TestMethod]
+		public void ShouldGetRouteWithEncodedParameters()
+		{
+			RouteManager routeManager;
+			Route route;
+
+			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
+			routeManager.AddRouteHandler(new BooksRouteHandler());
+			route = routeManager.GetRoute(RESTMethods.GET, "/root/API/books?year=1980&author=to%20to");
+			Assert.IsNotNull(route);
+			Assert.IsNotNull(route.Binding);
+			Assert.IsNotNull(route.Binding.RouteHandler);
+			Assert.IsNotNull(route.Binding.MethodInfo);
+
+			Assert.AreEqual("1980", route.Get("Year"));
+			Assert.AreEqual("to to", route.Get("Author"));
+		}
 		[TestMethod]
 		public void ShouldNotGetRouteIfSegmentIsNotFound()
 		{

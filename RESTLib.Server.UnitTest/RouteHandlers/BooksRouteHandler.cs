@@ -13,6 +13,12 @@ namespace RESTLib.Server.UnitTest.RouteHandlers
 		{
 			return 1;
 		}
+		[Route(RESTMethods.GET, "/root/API/books?year={Year}&author={Author}")]
+		public string GetBooks(int Year, string Author)
+		{
+			return Author;
+		}
+
 		[Route(RESTMethods.GET, "/root/API/Books/{Id}")]
 		public int GetBook(int Id)
 		{

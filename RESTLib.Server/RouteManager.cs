@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -116,9 +117,10 @@ namespace RESTLib.Server
 				if (!match.Success) continue;
 				
 				route = new Route() { Binding = keyValuePair.Value };
+				
 				foreach(Group group in match.Groups)
 				{
-					route.Set(group.Name, group.Value);
+					route.Set(group.Name, WebUtility.UrlDecode(group.Value));
 				}
 
 				return route;
