@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RESTLib.Client
 {
-    public class RESTClient
+    public class RESTClient:IRESTClient
     {
         private IResponseDeserializer deserializer;
         private IHttpConnector httpConnector;
@@ -22,28 +22,57 @@ namespace RESTLib.Client
             this.httpConnector = HttpConnector;
             this.deserializer = Deserializer;
         }
-        public async Task<string> GetAsync(string URL)
-		{
-           
-            HttpResponseMessage responseMessage;
-
-            responseMessage= await httpConnector.GetResponseAsync(URL);
-            if (responseMessage.StatusCode != System.Net.HttpStatusCode.OK) throw new RESTException(responseMessage.StatusCode);
-
-            return await responseMessage.Content.ReadAsStringAsync();
-		}
+        
         public async Task<T> GetAsync<T>(string URL)
         {
             HttpResponseMessage responseMessage;
             Stream stream;
 
-            responseMessage = await httpConnector.GetResponseAsync(URL);
+            responseMessage = await httpConnector.GetAsync(URL);
             if (responseMessage.StatusCode != System.Net.HttpStatusCode.OK) throw new RESTException(responseMessage.StatusCode);
 
             stream = await responseMessage.Content.ReadAsStreamAsync();
 
             return deserializer.Deserialize<T>(stream);
         }
+        public async Task<T> PostAsync<T>(string URL)
+        {
+            HttpResponseMessage responseMessage;
+            Stream stream;
 
+            
+            responseMessage = await httpConnector.PostAsync(URL);
+            if (responseMessage.StatusCode != System.Net.HttpStatusCode.OK) throw new RESTException(responseMessage.StatusCode);
+
+            stream = await responseMessage.Content.ReadAsStreamAsync();
+
+            return deserializer.Deserialize<T>(stream);
+        }
+        public async Task<T> PutAsync<T>(string URL)
+        {
+            HttpResponseMessage responseMessage;
+            Stream stream;
+
+
+            responseMessage = await httpConnector.PostAsync(URL);
+            if (responseMessage.StatusCode != System.Net.HttpStatusCode.OK) throw new RESTException(responseMessage.StatusCode);
+
+            stream = await responseMessage.Content.ReadAsStreamAsync();
+
+            return deserializer.Deserialize<T>(stream);
+        }
+        public async Task<T> DeleteAsync<T>(string URL)
+        {
+            HttpResponseMessage responseMessage;
+            Stream stream;
+
+
+            responseMessage = await httpConnector.PostAsync(URL);
+            if (responseMessage.StatusCode != System.Net.HttpStatusCode.OK) throw new RESTException(responseMessage.StatusCode);
+
+            stream = await responseMessage.Content.ReadAsStreamAsync();
+
+            return deserializer.Deserialize<T>(stream);
+        }
     }
 }

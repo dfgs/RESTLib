@@ -32,10 +32,10 @@ namespace Test
 
 			client = new RESTClient(new HttpConnector(), new ResponseDeserializer());
 
-			Console.WriteLine("Trying to query URL");
+			/*Console.WriteLine("Trying to query URL");
 			result = await client.GetAsync("http://localhost:8080/root/books/500");
 			Console.WriteLine("Result:");
-			Console.WriteLine(result);
+			Console.WriteLine(result);*/
 
 			Console.WriteLine("Trying to query URL");
 			book = await client.GetAsync<Book>("http://localhost:8080/root/books/500");
@@ -50,7 +50,7 @@ namespace Test
 			Console.WriteLine("Trying to query URL");
 			try
 			{
-				result = await client.GetAsync("http://localhost:8080/root/book/500");
+				book = await client.GetAsync<Book>("http://localhost:8080/root/book/500");
 			}
 			catch(Exception ex)
 			{

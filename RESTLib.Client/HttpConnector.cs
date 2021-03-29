@@ -16,9 +16,24 @@ namespace RESTLib.Client
 			this.client = new HttpClient();
 		}
 
-		public async Task<HttpResponseMessage> GetResponseAsync(string URL)
+		public async Task<HttpResponseMessage> GetAsync(string URL)
 		{
 			return await client.GetAsync(URL);
 		}
+		public async Task<HttpResponseMessage> PostAsync(string URL)
+		{
+			return await client.PostAsync(URL, null);
+		}
+		public async Task<HttpResponseMessage> PutAsync(string URL)
+		{
+			return await client.PutAsync(URL, null);
+		}
+
+		public async Task<HttpResponseMessage> DeleteAsync(string URL)
+		{
+			return await client.DeleteAsync(URL);
+		}
+
+
 	}
 }

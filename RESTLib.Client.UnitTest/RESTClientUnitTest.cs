@@ -17,14 +17,40 @@ namespace RESTLib.Client.UnitTest
 			Assert.ThrowsException<ArgumentNullException>(() => new RESTClient(new HttpConnector(), null)); ;
 		}
 		[TestMethod]
-		public async Task ShouldThrowExceptionIfStatusCodeIsNotOK()
+		public async Task ShouldThrowExceptionIfGETStatusCodeIsNotOK()
 		{
 			RESTClient client;
 
 			client = new RESTClient(new MockedHttpConnector(System.Net.HttpStatusCode.NotFound), new ResponseDeserializer());
 			
-			await Assert.ThrowsExceptionAsync<RESTException>(() => client.GetAsync("root/test"));
 			await Assert.ThrowsExceptionAsync<RESTException>(() => client.GetAsync<string>("root/test"));
+		}
+		[TestMethod]
+		public async Task ShouldThrowExceptionIfPOSTStatusCodeIsNotOK()
+		{
+			RESTClient client;
+
+			client = new RESTClient(new MockedHttpConnector(System.Net.HttpStatusCode.NotFound), new ResponseDeserializer());
+
+			await Assert.ThrowsExceptionAsync<RESTException>(() => client.PostAsync<string>("root/test"));
+		}
+		[TestMethod]
+		public async Task ShouldThrowExceptionIfPUTStatusCodeIsNotOK()
+		{
+			RESTClient client;
+
+			client = new RESTClient(new MockedHttpConnector(System.Net.HttpStatusCode.NotFound), new ResponseDeserializer());
+
+			await Assert.ThrowsExceptionAsync<RESTException>(() => client.PutAsync<string>("root/test"));
+		}
+		[TestMethod]
+		public async Task ShouldThrowExceptionIfDeleteStatusCodeIsNotOK()
+		{
+			RESTClient client;
+
+			client = new RESTClient(new MockedHttpConnector(System.Net.HttpStatusCode.NotFound), new ResponseDeserializer());
+
+			await Assert.ThrowsExceptionAsync<RESTException>(() => client.DeleteAsync<string>("root/test"));
 		}
 
 

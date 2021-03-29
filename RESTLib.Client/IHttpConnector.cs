@@ -9,6 +9,9 @@ namespace RESTLib.Client
 {
 	public interface IHttpConnector
 	{
-		Task<HttpResponseMessage> GetResponseAsync(string URL);
+		Task<HttpResponseMessage> GetAsync(string URL);
+		Task<HttpResponseMessage> PostAsync(string URL);
+		Task<HttpResponseMessage> PutAsync(string URL);
+		Task<HttpResponseMessage> DeleteAsync(string URL);
 	}
 }

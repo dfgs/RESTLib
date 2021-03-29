@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\RESTException.cs" />
     <Compile Include="HttpConnector.cs" />
+    <Compile Include="IRESTClient.cs" />
     <Compile Include="IHttpConnector.cs" />
     <Compile Include="IResponseDeserializer.cs" />
     <Compile Include="ResponseDeserializer.cs" />

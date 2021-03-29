@@ -17,7 +17,7 @@ namespace RESTLib.Client.UnitTest.Mocks
 			this.code = Code;
 		}
 
-		public async Task<HttpResponseMessage> GetResponseAsync(string URL)
+		public async Task<HttpResponseMessage> GetAsync(string URL)
 		{
 			HttpResponseMessage response;
 
@@ -26,7 +26,33 @@ namespace RESTLib.Client.UnitTest.Mocks
 
 			return await Task.FromResult(response);
 		}
+		public async Task<HttpResponseMessage> PostAsync(string URL)
+		{
+			HttpResponseMessage response;
 
+			response = new HttpResponseMessage();
+			response.StatusCode = code;
+
+			return await Task.FromResult(response);
+		}
+		public async Task<HttpResponseMessage> PutAsync(string URL)
+		{
+			HttpResponseMessage response;
+
+			response = new HttpResponseMessage();
+			response.StatusCode = code;
+
+			return await Task.FromResult(response);
+		}
+		public async Task<HttpResponseMessage> DeleteAsync(string URL)
+		{
+			HttpResponseMessage response;
+
+			response = new HttpResponseMessage();
+			response.StatusCode = code;
+
+			return await Task.FromResult(response);
+		}
 
 	}
 }
