@@ -24,33 +24,32 @@ namespace Test
 
 			routeManager = new RouteManager(new RouteParser(), new ResponseSerializer());
 			routeManager.AddRouteHandler(new BooksRouteHandlers());
-			server = new RESTServer(new ConsoleLogger(new DefaultLogFormatter()),routeManager, "http://localhost:8080/root/");
+			server = new RESTServer(new ConsoleLogger(new DefaultLogFormatter()),routeManager, "http://localhost:8734/");
 
 			server.Start();
-
 			Thread.Sleep(1000);
 
 			client = new RESTClient(new HttpConnector(), new ResponseDeserializer());
 
 			/*Console.WriteLine("Trying to query URL");
-			result = await client.GetAsync("http://localhost:8080/root/books/500");
+			result = await client.GetAsync("http://localhost:8734/root/books/500");
 			Console.WriteLine("Result:");
 			Console.WriteLine(result);*/
 
 			Console.WriteLine("Trying to query URL");
-			book = await client.GetAsync<Book>("http://localhost:8080/root/books/500");
+			book = await client.GetAsync<Book>("http://localhost:8734/root/books/500");
 			Console.WriteLine("Result:");
 			Console.WriteLine(book);
 
 			Console.WriteLine("Trying to query URL");
-			book = await client.GetAsync<Book>("http://localhost:8080/root/books?year=2020&author=stephenking");
+			book = await client.GetAsync<Book>("http://localhost:8734/root/books?year=2020&author=stephenking");
 			Console.WriteLine("Result:");
 			Console.WriteLine(book);
 
 			Console.WriteLine("Trying to query URL");
 			try
 			{
-				book = await client.GetAsync<Book>("http://localhost:8080/root/book/500");
+				book = await client.GetAsync<Book>("http://localhost:8734/root/book/500");
 			}
 			catch(Exception ex)
 			{
